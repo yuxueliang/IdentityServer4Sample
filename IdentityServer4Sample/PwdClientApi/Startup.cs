@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IdentityServer4Center
+namespace PwdClientApi
 {
     public class Startup
     {
@@ -24,13 +24,14 @@ namespace IdentityServer4Center
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityServer()
-                    .AddDeveloperSigningCredential()
-                    .AddInMemoryApiResources(Config.GetResources())
-                    .AddInMemoryClients(Config.GetClients())
-                    .AddTestUsers(Config.GetTestUsers());
 
-
+            services.AddAuthentication("Bearer")
+            .AddIdentityServerAuthentication(options =>
+            {
+                options.RequireHttpsMetadata = false; // for dev env
+                options.Authority = $"http://localhost:5000";
+                options.ApiName = "api"; // match with configuration in IdentityServer
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -42,10 +43,10 @@ namespace IdentityServer4Center
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
 
-            // app.UseMvc();
 
-            app.UseIdentityServer();
+            app.UseMvc();
         }
     }
 }

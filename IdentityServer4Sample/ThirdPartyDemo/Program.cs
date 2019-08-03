@@ -14,8 +14,12 @@ namespace ThirdPartyDemo
             {
                 Console.WriteLine(diso.Error);
             }
-            var tokenClient = new TokenClient(diso.TokenEndpoint, "client", "secret");
-            var tokenResponse = tokenClient.RequestClientCredentialsAsync("api").Result;
+            //var tokenClient = new TokenClient(diso.TokenEndpoint, "client", "secret");
+            //var tokenResponse = tokenClient.RequestClientCredentialsAsync("api").Result;
+
+            var tokenClient = new TokenClient(diso.TokenEndpoint, "pwdClient", "secret");
+            var tokenResponse = tokenClient.RequestResourceOwnerPasswordAsync("yxl","123456","api").Result;
+
 
             if (tokenResponse.IsError)
             {
