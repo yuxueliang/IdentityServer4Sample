@@ -39,7 +39,8 @@ namespace IdentityServer4Mvc
                      ClientId="mvc",
                      AllowedGrantTypes=GrantTypes.Implicit,
                      ClientSecrets = { new Secret("secret".Sha256()) },
-                     AllowedScopes={ "api1" }//和ApiResource 中的保持一致
+                     AllowedScopes={ "api1" },//和ApiResource 中的保持一致
+                     RedirectUris={ "http://localhost:5001/signin-oidc"}//固定地址，不能修改
                 },
                
             };
