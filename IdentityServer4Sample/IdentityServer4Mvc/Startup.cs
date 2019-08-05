@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IdentityServer4;
+using IdentityServer4Mvc.Services;
 
 namespace IdentityServer4Mvc
 {
@@ -39,6 +40,7 @@ namespace IdentityServer4Mvc
                   .AddInMemoryClients(Config.GetClients())
                   .AddTestUsers(Config.GetTestUsers());
 
+            services.AddScoped<ConsentService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
