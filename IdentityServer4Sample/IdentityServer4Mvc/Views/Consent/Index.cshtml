@@ -1,0 +1,68 @@
+﻿@model ConsentViewModel
+
+
+<p>Consent Page</p>
+<div class="row page-header">
+    @if(!string.IsNullOrWhiteSpace(Model.ClientLogoUrl))
+    {
+        <div><img src="@Model.ClientLogoUrl" /></div>
+
+    }
+    <h1>
+        @Model.ClientName
+        <small>希望使用你的账户</small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <form asp-action="Index" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            @if (Model.IdentityScopes.Any())
+            {
+                <h1>用户信息</h1>
+                <ul class="list-group">
+                    @foreach (var item in Model.IdentityScopes)
+                    {
+                        await Html.RenderPartialAsync("_ScopeListItem", item);
+                    }
+
+                </ul>
+            }
+
+            @if (Model.ResourceScopes.Any())
+            {
+                <h1>应用权限</h1>
+                <ul class="list-group">
+                    @foreach (var item in Model.ResourceScopes)
+                    {
+                        await Html.RenderPartialAsync("_ScopeListItem", item);
+                    }
+
+                </ul>
+
+                
+            }
+
+            <div>
+                <label>
+                    <input type="checkbox" asp-for="RememberConsent" />
+                    <strong>记住我的选择</strong>
+                </label>
+            </div>
+
+            <div>
+                <button name="button" value="yes" class="btn btn-primary" autofocus>同意</button>
+                <button name="button" value="no" >取消</button>
+
+                @if (!string.IsNullOrEmpty(Model.ClientUrl))
+                {
+                    <a href="@Model.ClientUrl" class="pull-right btn btn-default">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <strong>@Model.ClientUrl</strong>
+                    </a>
+                }
+            </div>
+        </form>
+    </div>
+</div>
