@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using IdentityServer4.Test;
 using System.Security.Claims;
 using IdentityModel;
+using IdentityServer4;
 
 namespace IdentityServer4Mvc
 {
@@ -39,8 +40,13 @@ namespace IdentityServer4Mvc
                      ClientId="mvc",
                      AllowedGrantTypes=GrantTypes.Implicit,
                      ClientSecrets = { new Secret("secret".Sha256()) },
-                     AllowedScopes={ "api1" },//和ApiResource 中的保持一致
-                     RedirectUris={ "http://localhost:5001/signin-oidc"}//固定地址，不能修改
+                     AllowedScopes={
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                    },
+                     RequireConsent=false,
+                     RedirectUris={ "http://localhost:5001/signin-oidc"},//固定地址，不能修改
+                     PostLogoutRedirectUris={"http://localhost:5001/signout-callback-oidc" }//固定地址，不能修改
                 },
                
             };
