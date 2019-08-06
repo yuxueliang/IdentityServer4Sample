@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServer4Mvc.Models;
 using Microsoft.AspNetCore.Identity;
 using IdentityServer4.Services;
+using System.Reflection;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 
 namespace IdentityServer4Mvc
 {
@@ -48,14 +51,34 @@ namespace IdentityServer4Mvc
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddIdentityServer()
                   .AddDeveloperSigningCredential()
-                  .AddInMemoryApiResources(Config.GetApiResources())
-                  .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                  .AddInMemoryClients(Config.GetClients())
+                  //.AddInMemoryApiResources(Config.GetApiResources())
+                  //.AddInMemoryIdentityResources(Config.GetIdentityResources())
+                  //.AddInMemoryClients(Config.GetClients())
+                  .AddConfigurationStore(options=> 
+                  {
+                      options.ConfigureDbContext = builder =>
+                      {
+                          builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),sql=>sql.MigrationsAssembly(migrationAssembly));
+                      };
+                  })
+                  .AddOperationalStore(options=>
+                  {
+                      options.ConfigureDbContext = builder =>
+                        {
+                            builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sql => sql.MigrationsAssembly(migrationAssembly));
+                        };
+                  })
+
                   .AddAspNetIdentity<ApplicationUser>();
             //.AddTestUsers(Config.GetTestUsers());
+
+            //IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext
+
+           // IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext
 
             services.AddScoped<IProfileService, ProfileService>();
 
@@ -79,6 +102,9 @@ namespace IdentityServer4Mvc
             app.UseCookiePolicy();
 
 
+            InitIdentityServerDatabase(app);
+
+
             app.UseIdentityServer();
 
 
@@ -88,6 +114,41 @@ namespace IdentityServer4Mvc
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        public void InitIdentityServerDatabase(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var configurationDbContext = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+
+                if (!configurationDbContext.Clients.Any())
+                {
+                    foreach (var client in Config.GetClients())
+                    {
+                        configurationDbContext.Clients.Add(client.ToEntity());
+                    }
+                    configurationDbContext.SaveChanges();
+                }
+                if (!configurationDbContext.ApiResources.Any())
+                {
+                    foreach (var api in Config.GetApiResources())
+                    {
+                        configurationDbContext.ApiResources.Add(api.ToEntity());
+                    }
+                    configurationDbContext.SaveChanges();
+                }
+                if (!configurationDbContext.IdentityResources.Any())
+                {
+                    foreach (var identity in Config.GetIdentityResources())
+                    {
+                        configurationDbContext.IdentityResources.Add(identity.ToEntity());
+                    }
+                    configurationDbContext.SaveChanges();
+                }
+            }
         }
     }
 }
