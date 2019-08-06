@@ -14,6 +14,7 @@ using IdentityServer4Mvc.Data;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4Mvc.Models;
 using Microsoft.AspNetCore.Identity;
+using IdentityServer4.Services;
 
 namespace IdentityServer4Mvc
 {
@@ -54,7 +55,9 @@ namespace IdentityServer4Mvc
                   .AddInMemoryIdentityResources(Config.GetIdentityResources())
                   .AddInMemoryClients(Config.GetClients())
                   .AddAspNetIdentity<ApplicationUser>();
-                  //.AddTestUsers(Config.GetTestUsers());
+            //.AddTestUsers(Config.GetTestUsers());
+
+            services.AddScoped<IProfileService, ProfileService>();
 
             services.AddScoped<ConsentService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

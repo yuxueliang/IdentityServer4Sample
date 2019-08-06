@@ -8,5 +8,7 @@ namespace IdentityServer4Mvc.Models
 {
     public class ApplicationUser:IdentityUser<int>
     {
+
+        public string Avatar  { get; set; }
     }
 }

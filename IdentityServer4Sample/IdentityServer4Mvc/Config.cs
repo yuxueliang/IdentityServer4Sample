@@ -49,10 +49,14 @@ namespace IdentityServer4Mvc
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.OfflineAccess
                     },
                      RequireConsent=true,
                      RedirectUris={ "http://localhost:5001/signin-oidc"},//固定地址，不能修改
-                     PostLogoutRedirectUris={"http://localhost:5001/signout-callback-oidc" }//固定地址，不能修改
+                     PostLogoutRedirectUris={"http://localhost:5001/signout-callback-oidc" },//固定地址，不能修改
+                    AllowAccessTokensViaBrowser = true ,// can return access_token to this client
+                   AllowOfflineAccess=true,
+                   AlwaysIncludeUserClaimsInIdToken=true
                 },
                
             };

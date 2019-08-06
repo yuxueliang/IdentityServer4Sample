@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace IdentityServer4Client
 {
@@ -31,22 +32,29 @@ namespace IdentityServer4Client
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = "Cookies";
-                    options.DefaultChallengeScheme = "oidc";
-                })
-                .AddCookie("Cookies")
-                .AddOpenIdConnect("oidc", options =>
-                {
-                    options.SignInScheme = "Cookies";
-                    options.Authority = "http://localhost:5000";
-                    options.RequireHttpsMetadata = false;
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+            .AddCookie("Cookies")
+            .AddOpenIdConnect("oidc", options =>
+            {
+                options.SignInScheme = "Cookies";
+                options.Authority = "http://localhost:5000";
+                options.RequireHttpsMetadata = false;
 
-                    options.ClientId = "mvc";
-                    options.ClientSecret = "secret";
-                    options.SaveTokens = true;
-                });
+                options.ClientId = "mvc";
+                options.ClientSecret = "secret";
+                options.SaveTokens = true;
+
+                options.ResponseType = OpenIdConnectResponseType.IdTokenToken;
+
+
+                options.Scope.Add("offline_access");
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+            });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
