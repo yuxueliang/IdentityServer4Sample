@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IdentityServer4;
 using IdentityServer4Mvc.Services;
+using IdentityServer4Mvc.Data;
+using Microsoft.EntityFrameworkCore;
+using IdentityServer4Mvc.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServer4Mvc
 {
@@ -33,12 +37,24 @@ namespace IdentityServer4Mvc
             });
 
 
+            services.AddDbContext<ApplicationDbContext>(options=> 
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+
+            services.AddIdentity<ApplicationUser, ApplicationUserRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+
             services.AddIdentityServer()
                   .AddDeveloperSigningCredential()
                   .AddInMemoryApiResources(Config.GetApiResources())
                   .AddInMemoryIdentityResources(Config.GetIdentityResources())
                   .AddInMemoryClients(Config.GetClients())
-                  .AddTestUsers(Config.GetTestUsers());
+                  .AddAspNetIdentity<ApplicationUser>();
+                  //.AddTestUsers(Config.GetTestUsers());
 
             services.AddScoped<ConsentService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
