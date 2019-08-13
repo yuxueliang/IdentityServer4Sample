@@ -1,0 +1,16 @@
+﻿version: '3.0'
+services:
+  webnotebook:
+    container_name: webnotebook
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - redis
+    links:
+      - "redis:redis.webnotebook.com"
+    ports:
+      - "8080:80"
+  redis:
+   container_name: some-redis
+   image: redis

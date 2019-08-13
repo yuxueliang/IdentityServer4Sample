@@ -20,11 +20,15 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="NLog" Version="4.6.6" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
 
 
   <ItemGroup>
     <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="docker-compose.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

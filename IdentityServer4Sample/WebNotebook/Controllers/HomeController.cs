@@ -6,19 +6,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NLog;
+using StackExchange.Redis;
 using WebNotebook.Models;
 
 namespace WebNotebook.Controllers
 {
     public class HomeController : Controller
     {
+      
         public static Logger logger = LogManager.GetLogger("SimpleDemo");
+        public static ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("redis.webnotebook.com:6379");
 
+        /// <summary>
+        /// 读取mongodb数据数据
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
-            var log = $"客户端：{HttpContext.Connection.RemoteIpAddress} 访问了 Index 页面！";
+            var db = redis.GetDatabase();
 
-            logger.Info(log);
+            var num = db.StringIncrement("count");
+
+            ViewData["num"] = num;
+
             return View();
         }
 
