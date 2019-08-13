@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4Center", "IdentityServer4Center\IdentityServer4Center.csproj", "{5E84408E-46F0-4EB9-92FF-747FB0A6054E}"
 EndProject
@@ -17,7 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer4Web", "Ident
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4Mvc", "IdentityServer4Mvc\IdentityServer4Mvc.csproj", "{AB9745DC-004F-4A5E-8CFD-C2E0A389C028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer4Client", "IdentityServer4Client\IdentityServer4Client.csproj", "{866792AD-222B-42B6-973C-1F0DD9FA643B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4Client", "IdentityServer4Client\IdentityServer4Client.csproj", "{866792AD-222B-42B6-973C-1F0DD9FA643B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "User.API", "User.API\User.API.csproj", "{8DA66770-9BF1-4E34-9B80-F3CF51B7662E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebNotebook", "WebNotebook\WebNotebook.csproj", "{A1F8CCFE-899F-45A8-A01E-B5DF629D20C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +53,14 @@ Global
 		{866792AD-222B-42B6-973C-1F0DD9FA643B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{866792AD-222B-42B6-973C-1F0DD9FA643B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{866792AD-222B-42B6-973C-1F0DD9FA643B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DA66770-9BF1-4E34-9B80-F3CF51B7662E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA66770-9BF1-4E34-9B80-F3CF51B7662E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA66770-9BF1-4E34-9B80-F3CF51B7662E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA66770-9BF1-4E34-9B80-F3CF51B7662E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1F8CCFE-899F-45A8-A01E-B5DF629D20C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1F8CCFE-899F-45A8-A01E-B5DF629D20C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1F8CCFE-899F-45A8-A01E-B5DF629D20C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1F8CCFE-899F-45A8-A01E-B5DF629D20C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
